@@ -19,10 +19,9 @@ import { ChangeEvent, useState } from "react";
 import { Textarea } from "../ui/textarea";
 import { usePathname, useRouter } from "next/navigation";
 
- import { ThreadValidation } from "@/lib/validations/thread";
-import { createThread } from "@/lib/actions/thread.actions.ts";
+import { ThreadValidation } from "@/lib/validations/thread";
+import { createThread } from "@/lib/actions/thread.actions";
 // import { createThread } from "@/lib/actions/thread.actions";
-
 
 interface Props {
   user: {
@@ -36,36 +35,36 @@ interface Props {
   btnTitle: string;
 }
 
-const PostThread = ({userId }: {userId:string}) => {
-
+const PostThread = ({ userId }: { userId: string }) => {
   const router = useRouter();
   const pathname = usePathname();
 
   const form = useForm({
     resolver: zodResolver(ThreadValidation),
     defaultValues: {
-     thread: '',
-     accountId: userId,
+      thread: "",
+      accountId: userId,
     },
-  })
+  });
 
   const onSubmit = async (values: z.infer<typeof ThreadValidation>) => {
     await createThread({
-        text: values.thread, 
-        author: userId,
-        communityId: null,
-        path:pathname,
+      text: values.thread,
+      author: userId,
+      communityId: null,
+      path: pathname,
     });
 
-    router.push('/')
-  }
+    router.push("/");
+  };
 
-  return <Form {...form}>
+  return (
+    <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className="mt-10 flex flex-col justify-start gap-10"
       >
-    <FormField
+        <FormField
           control={form.control}
           name="thread"
           render={({ field }) => (
@@ -73,23 +72,20 @@ const PostThread = ({userId }: {userId:string}) => {
               <FormLabel className="text-base-semibold text-light-2">
                 Content
               </FormLabel>
-              <FormControl 
-                  className="no-focus border border-dark-4 bg-dark-3 text-light-1">
-                <Textarea
-                  rows={15}
-                  {...field}
-                />
+              <FormControl className="no-focus border border-dark-4 bg-dark-3 text-light-1">
+                <Textarea rows={15} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        <Button type="submit" className="bg-primary-500">Post Thread</Button>
-
+        <Button type="submit" className="bg-primary-500">
+          Post Thread
+        </Button>
       </form>
-      
-      </Form>
+    </Form>
+  );
 };
 
 export default PostThread;
