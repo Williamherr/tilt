@@ -1,45 +1,36 @@
 "use client";
 
 import * as z from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Button } from "@/components/ui/button";
+import { useOrganization } from "@clerk/nextjs";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { usePathname, useRouter } from "next/navigation";
+
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import Image from "next/image";
-import { ChangeEvent, useState } from "react";
-import { Textarea } from "../ui/textarea";
-import { usePathname, useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 
 import { ThreadValidation } from "@/lib/validations/thread";
 import { createThread } from "@/lib/actions/thread.actions";
-// import { createThread } from "@/lib/actions/thread.actions";
 
 interface Props {
-  user: {
-    id: string;
-    objectId: string;
-    username: string;
-    name: string;
-    bio: string;
-    image: string;
-  };
-  btnTitle: string;
+  userId: string;
 }
 
-const PostThread = ({ userId }: { userId: string }) => {
+function PostThread({ userId }: Props) {
   const router = useRouter();
   const pathname = usePathname();
 
-  const form = useForm({
+  const { organization } = useOrganization();
+
+  const form = useForm<z.infer<typeof ThreadValidation>>({
     resolver: zodResolver(ThreadValidation),
     defaultValues: {
       thread: "",
@@ -48,10 +39,11 @@ const PostThread = ({ userId }: { userId: string }) => {
   });
 
   const onSubmit = async (values: z.infer<typeof ThreadValidation>) => {
+    console.log(organization);
     await createThread({
       text: values.thread,
       author: userId,
-      communityId: null,
+      communityId: organization ? organization.id : null,
       path: pathname,
     });
 
@@ -61,14 +53,14 @@ const PostThread = ({ userId }: { userId: string }) => {
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmit)}
         className="mt-10 flex flex-col justify-start gap-10"
+        onSubmit={form.handleSubmit(onSubmit)}
       >
         <FormField
           control={form.control}
           name="thread"
           render={({ field }) => (
-            <FormItem className="flex flex-col w-full gap-3">
+            <FormItem className="flex w-full flex-col gap-3">
               <FormLabel className="text-base-semibold text-light-2">
                 Content
               </FormLabel>
@@ -86,6 +78,6 @@ const PostThread = ({ userId }: { userId: string }) => {
       </form>
     </Form>
   );
-};
+}
 
 export default PostThread;
