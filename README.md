@@ -1,34 +1,49 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## https://tilt-five.vercel.app/
+
+Tilt is a thread copycat app built with Next.js, Clerk Auth, MongoDB, Shadcn-UI, Tailwind, and Uploadthing.
 
 ## Getting Started
 
-First, run the development server:
+To get started with Tilt, clone the repository and install the dependencies:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+## git clone https://github.com/Williamherr/tilt
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+cd tilt
+npm install
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Then, create a .env.local file in the root directory of the project and add the following environment variables:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=...
+CLERK_SECRET_KEY=...
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=...
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=...
+NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=...
+NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=...
+MONGODB_URL=...
+UPLOADTHING_SECRET=...
+UPLOADTHING_APP_ID=...
+NEXT_CLERK_WEBHOOK_SECRET=...
 
-## Learn More
+# Features
 
-To learn more about Next.js, take a look at the following resources:
+- User authentication with Clerk Auth
+- Thread creation and deletion
+- Thread commenting
+- Image uploading with Uploadthing
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Technologies Used
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- Next.js
+- Clerk Auth
+- MongoDB
+- Shadcn-UI
+- Tailwind
+- Uploadthing
 
-## Deploy on Vercel
+# TODO:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Add like mechanicism
+- Add request to be added to a community
+- Add share mechanicism
+- Add activities notifications
+- Fix Profile tabs: Replies and Tagged
